@@ -1,92 +1,107 @@
 <template>
   <div id="app">
-    <div class="main-section">
-      <h1>Created Accounts by user</h1>
-      <table>
-        <thead>
-          <tr>
-            <td>#</td>
-            <td>Creator</td>
-            <td>Claimed Accounts</td>
-            <td>Created Discounted Accounts</td>
-            <td>Created Paid Accounts</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(creator, index) of creators" v-bind:key="creator['.key']">
-            <td>{{ index + 1 }}</td>
-            <td>{{creator.id}}</td>
-            <td>{{creator.claimed_accounts}}</td>
-            <td>{{creator.created_discounted_accounts}}</td>
-            <td>{{creator.created_paid_accounts}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <div class="subsection">
-      <h2>Last claims</h2>
-      <table>
-        <thead>
-          <tr>
-            <td>#</td>
-            <td>Date</td>
-            <td>Creator</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="claim of claims" v-bind:key="claim['.key']">
-            <td>&nbsp;</td>
-            <td>{{claim.timestamp}}</td>
-            <td>{{claim.creator}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <h1>Created Accounts per user</h1>
+    <h6>since hardfork 20</h6>
 
-    <div class="subsection">
-      <h2>Last created accounts with claims</h2>
-      <table>
-        <thead>
-          <tr>
-            <td>#</td>
-            <td>Date</td>
-            <td>Creator</td>
-            <td>Account Created</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="account of create_claimed" v-bind:key="account['.key']">
-            <td>&nbsp;</td>
-            <td>{{account.timestamp}}</td>
-            <td>{{account.creator}}</td>
-            <td>{{account.new_account_name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <b-container>
+      <b-row>
+        <b-col md="12">
+          <b-table class="created-accounts-per-user" responsive small hover
+                   :items="creators"
+                   :fields="t1_fields"
+                   :per-page="creators__per_page"
+                   :current-page="currentPage"
+          >
+            <!-- A virtual column -->
+            <template slot="index" slot-scope="data">
+              {{ (creators__per_page * ((currentPage?currentPage:1)-1)) + data.index + 1}}
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
 
-    <div class="subsection">
-      <h2>Last created paid accounts</h2>
-      <table>
-        <thead>
-          <tr>
-            <td>#</td>
-            <td>Date</td>
-            <td>Creator</td>
-            <td>Account Created</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="account of created_paid" v-bind:key="account['.key']">
-            <td>&nbsp;</td>
-            <td>{{account.timestamp}}</td>
-            <td>{{account.creator}}</td>
-            <td>{{account.new_account_name}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <b-row>
+        <b-col offset-md="4" md="4" align-h="end">
+          <b-pagination align="center" :total-rows="creators.length" :per-page="creators__per_page" v-model="currentPage" class="my-0" />
+        </b-col>
+        <b-col md="4" >
+          <b-form-group horizontal label="Per page">
+            <b-form-row style="width: 100px; justify-content: flex-end;">
+              <b-form-select :options="[10, 25, 50, 100]" v-model="creators__per_page"/>
+            </b-form-row>
+          </b-form-group>
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col>
+          <h2>Last claims</h2>
+          <table>
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>Date</td>
+                <td>Creator</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="claim of claims" v-bind:key="claim['.key']">
+                <td>&nbsp;</td>
+                <td>{{claim.timestamp}}</td>
+                <td>{{claim.creator}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+
+        <b-col>
+          <h2>Last created accounts with claims</h2>
+          <table>
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>Date</td>
+                <td>Creator</td>
+                <td>Account Created</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="account of create_claimed" v-bind:key="account['.key']">
+                <td>&nbsp;</td>
+                <td>{{account.timestamp}}</td>
+                <td>{{account.creator}}</td>
+                <td>{{account.new_account_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+
+        <b-col>
+          <h2>Last created paid accounts</h2>
+          <table>
+            <thead>
+              <tr>
+                <td>#</td>
+                <td>Date</td>
+                <td>Creator</td>
+                <td>Account Created</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="account of created_paid" v-bind:key="account['.key']">
+                <td>&nbsp;</td>
+                <td>{{account.timestamp}}</td>
+                <td>{{account.creator}}</td>
+                <td>{{account.new_account_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
+    </b-container>
 
     <footer>
       Current Steem irreversible block number: {{ prefs.current_block_num }}<br>
@@ -110,7 +125,32 @@ export default {
   name: 'app',
   data () {
     return {
+      t1_fields: [
+        {
+          key: 'index',
+          label: '#',
+        },
+        {
+          key: 'id',
+          label: 'Account',
+          sortable: true,
+        },
+        {
+          key: 'claimed_accounts',
+          sortable: true,
+        },
+        {
+          key: 'created_discounted_accounts',
+          sortable: true,
+        },
+        {
+          key: 'created_paid_accounts',
+          sortable: true,
+        }
+      ],
       creators: [],
+      creators__per_page: 10,
+      currentPage: 1,
       claims: [],
       create_claimed: [],
       created_paid: [],
@@ -137,6 +177,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -155,17 +196,11 @@ ul {
   padding: 0;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
 a {
   color: #42b983;
 }
-
-.main-section{
-  margin: 0 calc(50% - 400px);
+h6 {
+  margin-bottom: 30px;
 }
 
 .subsection {
