@@ -108,7 +108,7 @@ for op in blockchain.stream(
     ],
     # start=26256743, # first block of HF20
     # start=26265398, # first block after HF20 with `create_claimed_account` op
-    # start=26289186, # first block after HF20 with `create_account` op
+    # start=26289186, # first block after HF20 with `account_create` op
     start=last_block_num_synced + 1,
     max_batch_size=50,
 ):

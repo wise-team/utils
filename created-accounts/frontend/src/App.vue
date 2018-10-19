@@ -13,8 +13,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="creator of creators" v-bind:key="creator['.key']">
-            <td>&nbsp;</td>
+          <tr v-for="(creator, index) of creators" v-bind:key="creator['.key']">
+            <td>{{ index + 1 }}</td>
             <td>{{creator.id}}</td>
             <td>{{creator.claimed_accounts}}</td>
             <td>{{creator.created_discounted_accounts}}</td>
