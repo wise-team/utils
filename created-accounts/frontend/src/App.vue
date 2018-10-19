@@ -167,15 +167,25 @@ h6 {
   margin-bottom: 30px;
 }
 
-.subsection {
-  float: left;
-  width: 33%;
-  padding: 0 50px;
-  box-sizing: border-box;
+.last-table {
+  margin: 30px auto;
 }
 
 footer {
-  padding-top: 50px;
+  padding: 50px 0;
   clear: both;
+}
+
+.col-xxl {
+  @media (min-width: 1600px) {
+  flex: 0 0 33%;
+  max-width: 33%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .wide {
+    max-width: 1600px;
+  }
 }
 </style>
