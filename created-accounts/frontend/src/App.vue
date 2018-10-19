@@ -56,7 +56,7 @@
         </b-col>
 
         <b-col sm="12" xl="6" class="last-table col-xxl">
-          <h2>Last created accounts with claims</h2>
+          <h2>Last created paid accounts</h2>
           <b-table small :items="created_paid" :fields="[{key: 'timestamp', label:'When'}, 'creator', {key: 'new_account_name', label:'Account Created'}]">
             <template slot="timestamp" slot-scope="data">
               <span :title="data.item.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{data.item.timestamp | moment("from")}}</span>
@@ -72,6 +72,8 @@
       Last block synced: {{ prefs.last_block_num_synced }}<br>
       Blocks behind: {{ prefs.blocks_behind }}<br>
       Last synced block timestamp: {{prefs.last_timestamp_synced | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'}} ({{ prefs.last_timestamp_synced | moment("from") }})<br>
+      <div style="margin-top: 20px; font-size: 24px">
+        made with <svg xmlns="http://www.w3.org/2000/svg" fill="#5f0fe2" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z"></path></svg> by <a href="https://wise-team.io/" style="color: #5f0fe2">wise-team</a></div>
     </footer>
   </div>
 </template>
@@ -172,7 +174,7 @@ h6 {
 }
 
 footer {
-  padding: 50px 0;
+  padding: 50px 0 10px 0;
   clear: both;
 }
 
