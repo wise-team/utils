@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
+Vue.use(require('vue-moment'));
 
 new Vue({
   el: '#app',

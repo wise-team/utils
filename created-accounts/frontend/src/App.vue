@@ -28,7 +28,7 @@
         <b-col md="4" >
           <b-form-group horizontal label="Per page">
             <b-form-row style="width: 100px; justify-content: flex-end;">
-              <b-form-select :options="[10, 25, 50, 100]" v-model="creators__per_page"/>
+              <b-form-select :options="[10, 25, 50, 100, 500]" v-model="creators__per_page"/>
             </b-form-row>
           </b-form-group>
         </b-col>
@@ -42,15 +42,13 @@
           <table>
             <thead>
               <tr>
-                <td>#</td>
                 <td>Date</td>
                 <td>Creator</td>
               </tr>
             </thead>
             <tbody>
               <tr v-for="claim of claims" v-bind:key="claim['.key']">
-                <td>&nbsp;</td>
-                <td>{{claim.timestamp}}</td>
+                <td :title="claim.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{claim.timestamp | moment("from")}}</td>
                 <td>{{claim.creator}}</td>
               </tr>
             </tbody>
@@ -62,7 +60,6 @@
           <table>
             <thead>
               <tr>
-                <td>#</td>
                 <td>Date</td>
                 <td>Creator</td>
                 <td>Account Created</td>
@@ -70,8 +67,7 @@
             </thead>
             <tbody>
               <tr v-for="account of create_claimed" v-bind:key="account['.key']">
-                <td>&nbsp;</td>
-                <td>{{account.timestamp}}</td>
+                <td :title="account.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{account.timestamp | moment("from")}}</td>
                 <td>{{account.creator}}</td>
                 <td>{{account.new_account_name}}</td>
               </tr>
@@ -84,7 +80,6 @@
           <table>
             <thead>
               <tr>
-                <td>#</td>
                 <td>Date</td>
                 <td>Creator</td>
                 <td>Account Created</td>
@@ -92,8 +87,7 @@
             </thead>
             <tbody>
               <tr v-for="account of created_paid" v-bind:key="account['.key']">
-                <td>&nbsp;</td>
-                <td>{{account.timestamp}}</td>
+                <td :title="account.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{account.timestamp | moment("from")}}</td>
                 <td>{{account.creator}}</td>
                 <td>{{account.new_account_name}}</td>
               </tr>
@@ -107,7 +101,7 @@
       Current Steem irreversible block number: {{ prefs.current_block_num }}<br>
       Last block synced: {{ prefs.last_block_num_synced }}<br>
       Blocks behind: {{ prefs.blocks_behind }}<br>
-      Last synced block timestamp: {{ prefs.last_timestamp_synced }}<br>
+      Last synced block timestamp: {{prefs.last_timestamp_synced | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'}} ({{ prefs.last_timestamp_synced | moment("from") }})<br>
     </footer>
   </div>
 </template>
