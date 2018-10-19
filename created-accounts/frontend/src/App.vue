@@ -35,65 +35,35 @@
       </b-row>
     </b-container>
 
-    <b-container class="bv-example-row">
+    <b-container class="wide">
       <b-row>
-        <b-col>
+        <b-col sm="12" xl="6" class="last-table col-xxl">
           <h2>Last claims</h2>
-          <table>
-            <thead>
-              <tr>
-                <td>Date</td>
-                <td>Creator</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="claim of claims" v-bind:key="claim['.key']">
-                <td :title="claim.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{claim.timestamp | moment("from")}}</td>
-                <td>{{claim.creator}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <b-table style="max-width: 75%; margin: auto;" small :items="claims" :fields="[{key: 'timestamp', label:'When'}, 'creator']">
+            <template slot="timestamp" slot-scope="data">
+              <span :title="data.item.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{data.item.timestamp | moment("from")}}</span>
+            </template>
+          </b-table>
         </b-col>
 
-        <b-col>
+        <b-col sm="12" xl="6" class="last-table col-xxl">
           <h2>Last created accounts with claims</h2>
-          <table>
-            <thead>
-              <tr>
-                <td>Date</td>
-                <td>Creator</td>
-                <td>Account Created</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="account of create_claimed" v-bind:key="account['.key']">
-                <td :title="account.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{account.timestamp | moment("from")}}</td>
-                <td>{{account.creator}}</td>
-                <td>{{account.new_account_name}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <b-table small :items="create_claimed" :fields="[{key: 'timestamp', label:'When'}, 'creator', {key: 'new_account_name', label:'Account Created'}]">
+            <template slot="timestamp" slot-scope="data">
+              <span :title="data.item.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{data.item.timestamp | moment("from")}}</span>
+            </template>
+          </b-table>
         </b-col>
 
-        <b-col>
-          <h2>Last created paid accounts</h2>
-          <table>
-            <thead>
-              <tr>
-                <td>Date</td>
-                <td>Creator</td>
-                <td>Account Created</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="account of created_paid" v-bind:key="account['.key']">
-                <td :title="account.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{account.timestamp | moment("from")}}</td>
-                <td>{{account.creator}}</td>
-                <td>{{account.new_account_name}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <b-col sm="12" xl="6" class="last-table col-xxl">
+          <h2>Last created accounts with claims</h2>
+          <b-table small :items="created_paid" :fields="[{key: 'timestamp', label:'When'}, 'creator', {key: 'new_account_name', label:'Account Created'}]">
+            <template slot="timestamp" slot-scope="data">
+              <span :title="data.item.timestamp | moment('YYYY-MM-DD hh:mm:ss') + ' UTC'">{{data.item.timestamp | moment("from")}}</span>
+            </template>
+          </b-table>
         </b-col>
+
       </b-row>
     </b-container>
 
