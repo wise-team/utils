@@ -106,6 +106,10 @@ export default {
           sortable: true,
         },
         {
+          key: 'pending_claimed_accounts',
+          sortable: true,
+        },
+        {
           key: 'created_discounted_accounts',
           sortable: true,
         },
