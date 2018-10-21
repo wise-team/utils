@@ -1,0 +1,20 @@
+version: '3'
+
+networks:
+  proxy-tier:
+    external:
+      name: caddy-proxy
+
+services:
+  frontend:
+    build: ./frontend/
+    networks:
+      - proxy-tier
+    environment:
+      NODE_ENV: production
+
+  backend:
+    build: ./backend/
+    restart: always
+    environment:
+      PYTHONUNBUFFERED: 0
