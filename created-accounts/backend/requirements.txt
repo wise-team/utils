@@ -1,3 +1,5 @@
 beem==0.20.7
 firebase-admin==2.13.0
 google-cloud-firestore==0.30.0
+
+rsa>=4.1 # not directly required, pinned by Snyk to avoid a vulnerability
